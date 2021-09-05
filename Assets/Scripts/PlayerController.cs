@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
 
     public float playerSpeed;
     private Vector3 movPlayer; //Donde se tiene que mover el player respecto la camera
+    public float gravity = 9.8f;
+    public float failveolocity; 
     //Camera
     public Camera mainCamera;
     private Vector3 camForward; //Donde esta mirando la camera
@@ -37,9 +39,13 @@ public class PlayerController : MonoBehaviour
         //rectificar la posicion del player para que siempre mire a la camera
         movPlayer = playerInput.x * camRight + playerInput.z * camForward;
 
-        player.transform.LookAt(player.transform.position + movPlayer); 
+        movPlayer = movPlayer * playerSpeed; 
+
+        player.transform.LookAt(player.transform.position + movPlayer);
+        //Gravity
+        SetGravity(); 
         //Move Player
-        player.Move(movPlayer * playerSpeed * Time.deltaTime);
+        player.Move(movPlayer * Time.deltaTime);
 
     }
 
@@ -54,5 +60,18 @@ public class PlayerController : MonoBehaviour
         //valores normalizados, 0-1
         camForward = camForward.normalized;
         camRight = camRight.normalized; 
+    }
+
+    void SetGravity() 
+    {
+        if (player.isGrounded)
+        {
+            failveolocity = -gravity * Time.deltaTime;
+            movPlayer.y = failveolocity; 
+        }
+        else {
+            failveolocity -= gravity * Time.deltaTime;
+            movPlayer.y = failveolocity;
+        }
     }
 }
