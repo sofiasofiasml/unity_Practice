@@ -13,7 +13,8 @@ public class PlayerController : MonoBehaviour
     public float playerSpeed;
     private Vector3 movPlayer; //Donde se tiene que mover el player respecto la camera
     public float gravity = 9.8f;
-    public float failveolocity; 
+    public float failveolocity;
+    public float jumpForce;
     //Camera
     public Camera mainCamera;
     private Vector3 camForward; //Donde esta mirando la camera
@@ -43,13 +44,15 @@ public class PlayerController : MonoBehaviour
 
         player.transform.LookAt(player.transform.position + movPlayer);
         //Gravity
-        SetGravity(); 
+        SetGravity();
+        //Función para las habilidades de nuestro jugador. 
+        PlayerSkills();
         //Move Player
         player.Move(movPlayer * Time.deltaTime);
 
     }
 
-    void camDirection() 
+    public void camDirection() 
     {
         camForward = mainCamera.transform.forward; //direción de delante
         camRight = mainCamera.transform.right; //direction right of camera
@@ -62,7 +65,7 @@ public class PlayerController : MonoBehaviour
         camRight = camRight.normalized; 
     }
 
-    void SetGravity() 
+    public void SetGravity() 
     {
         if (player.isGrounded)
         {
@@ -71,6 +74,14 @@ public class PlayerController : MonoBehaviour
         }
         else {
             failveolocity -= gravity * Time.deltaTime;
+            movPlayer.y = failveolocity;
+        }
+    }
+    public void PlayerSkills()
+    {
+        if (player.isGrounded && Input.GetButtonDown("Jump")) //JUMP
+        {
+            failveolocity = jumpForce;
             movPlayer.y = failveolocity;
         }
     }
