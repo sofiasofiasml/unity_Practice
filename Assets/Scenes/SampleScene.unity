@@ -195,6 +195,9 @@ MonoBehaviour:
   failveolocity: 8
   jumpForce: 8
   mainCamera: {fileID: 963194227}
+  isOnSlope: 0
+  slideVelocity: 3
+  slopeForceDown: -2
 --- !u!1 &623530122
 GameObject:
   m_ObjectHideFlags: 0
@@ -505,8 +508,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 824831524}
   m_LocalRotation: {x: 0.40673664, y: -0, z: -0, w: 0.9135455}
-  m_LocalPosition: {x: -7.0200806, y: -3.8090913, z: 8.691955}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalPosition: {x: -7.0200806, y: -3.8090913, z: 11.84}
+  m_LocalScale: {x: 8.4987, y: 8.4987, z: 8.4987}
   m_Children: []
   m_Father: {fileID: 813331865}
   m_RootOrder: 0

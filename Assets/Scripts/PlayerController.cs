@@ -19,6 +19,11 @@ public class PlayerController : MonoBehaviour
     public Camera mainCamera;
     private Vector3 camForward; //Donde esta mirando la camera
     private Vector3 camRight; //direction of Camera
+    //pendiente bajar
+    public bool isOnSlope = false; //si estamos en la rampa
+    private Vector3 hitNormal;
+    public float slideVelocity; //velocidad de desplazamiento
+    public float slopeForceDown; 
 
     // Start is called before the first frame update
     void Start()
@@ -76,6 +81,7 @@ public class PlayerController : MonoBehaviour
             failveolocity -= gravity * Time.deltaTime;
             movPlayer.y = failveolocity;
         }
+        SlideDown();
     }
     public void PlayerSkills()
     {
@@ -85,4 +91,20 @@ public class PlayerController : MonoBehaviour
             movPlayer.y = failveolocity;
         }
     }
+    //si esta en una rampa muy empinada
+    public void SlideDown()
+    {//es verdadero si el angulo del player es mayor al angulo minimo que puede subirse
+        isOnSlope = Vector3.Angle(Vector3.up, hitNormal) >= player.slopeLimit;
+        if (isOnSlope)//is true
+        {   //que varie la fuerza segun la pendiente de la rampa
+            movPlayer.x += ((1f-hitNormal.y) * hitNormal.x) * slideVelocity;
+            movPlayer.z += ((1f-hitNormal.y) * hitNormal.z) * slideVelocity;
+            movPlayer.y += slopeForceDown; //fuerza negativa para que empuje como la gravedad
+        }
+    }
+	private void OnControllerColliderHit(ControllerColliderHit hit)
+	{
+        hitNormal = hit.normal; //normal del plano que chocamos
+
+	}
 }
