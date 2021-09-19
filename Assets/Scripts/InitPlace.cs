@@ -8,10 +8,10 @@ public class InitPlace : MonoBehaviour
     public GameObject[] casillas;
     public GameObject gameObject; 
     //public int Count;
-    [SerializeField] int maphight = 25;
-    [SerializeField] int mapWidth = 12;
-    private float tileXfloat = 20.0f; 
-    private float tileZfloat = 17.0f;
+    [SerializeField] int maphight = 24;
+    [SerializeField] int mapWidth = 24;
+    private float tileXfloat = 40.0f; 
+    private float tileZfloat = 34.0f;
     private int rand;
     SphereCollider myCollier; 
     // Start is called before the first frame update
@@ -32,22 +32,23 @@ public class InitPlace : MonoBehaviour
         float mapZmax = maphight / 2; 
 
 
-        for (float x = mapXmin; x<= mapXmax; x++)
+        for (float x = -3; x<= 3; x++)
         {
-            for (float z = mapZmin; z<= mapZmax; z++) 
+            for (float z = -3; z<= 3; z++) 
             {
+                if ((x>=-2 && x<2) || (x == -3 && z>=-1 && z<=1 )|| (x==3 && z==0 ) ||(x==2 && (z>-3 && z<3)) ) { 
                 int prob = Random.Range(0, 101);
                 Vector3 pos; 
 
-                if (prob < 70)
+                if (prob < 70 || x==0 && z==0) 
                     rand = 0; 
                 else
                     rand = Random.Range(1, casillas.Length);
 
                 //Vector3 position = new Vector3(20 * k, 0, 20 * j);
                 GameObject randObject = Instantiate(casillas[rand]);
-				//randObject.transform.parent = gameObject.transform;
-				randObject.name = casillas[rand].name;
+				randObject.transform.parent = gameObject.transform;
+				randObject.name = x+" "+z;
                 if (z % 2 == 0)
                 {
                    pos = new Vector3(x * tileXfloat, 0, z * tileZfloat);
@@ -58,6 +59,7 @@ public class InitPlace : MonoBehaviour
                 }
                 StartCoroutine(setTitleInfo(randObject, pos)); 
             }
+                }
         }
     }
     IEnumerator setTitleInfo(GameObject GO, Vector3 pos) 
@@ -65,10 +67,10 @@ public class InitPlace : MonoBehaviour
         yield return new WaitForSeconds(0.00001f); 
         GO.transform.position = pos; 
     }
-	void OnTriggerExit(Collider other)
-	{
-        Destroy(other.gameObject); 
-	}
+	//void OnTriggerExit(Collider other)
+	//{
+ //       Destroy(other.gameObject); 
+	//}
 
 	
 }
